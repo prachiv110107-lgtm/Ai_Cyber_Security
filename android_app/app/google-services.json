@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709909114858",
+    "project_id": "cyber-security-21b9c",
+    "storage_bucket": "cyber-security-21b9c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709909114858:android:d5b3df6ddb7cae5203cc93",
+        "android_client_info": {
+          "package_name": "com.aicybershield.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR8k_DPNDzhS9Lksnwsz7ZWcsu2QMYKXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

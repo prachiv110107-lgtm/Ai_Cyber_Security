@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">709909114858</string>
+    <string name="google_api_key" translatable="false">AIzaSyDR8k_DPNDzhS9Lksnwsz7ZWcsu2QMYKXE</string>
+    <string name="google_app_id" translatable="false">1:709909114858:android:d5b3df6ddb7cae5203cc93</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDR8k_DPNDzhS9Lksnwsz7ZWcsu2QMYKXE</string>
+    <string name="google_storage_bucket" translatable="false">cyber-security-21b9c.firebasestorage.app</string>
+    <string name="project_id" translatable="false">cyber-security-21b9c</string>
+</resources>

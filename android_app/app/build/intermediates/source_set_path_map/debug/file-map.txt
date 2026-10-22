@@ -1,0 +1,45 @@
+com.aicybershield.app-browser-1.4.0-0 C:\Users\admin\.gradle\caches\transforms-3\05ddc648792dc77f9289bc63d7789866\transformed\browser-1.4.0\res
+com.aicybershield.app-jetified-lifecycle-viewmodel-savedstate-2.6.1-1 C:\Users\admin\.gradle\caches\transforms-3\12a19c7520829984d5bf7a023d672889\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\res
+com.aicybershield.app-drawerlayout-1.1.1-2 C:\Users\admin\.gradle\caches\transforms-3\27af625190c631bf723273ccb383881f\transformed\drawerlayout-1.1.1\res
+com.aicybershield.app-lifecycle-livedata-core-2.6.1-3 C:\Users\admin\.gradle\caches\transforms-3\2b10a3a26a2c98912371ec26afb9b17a\transformed\lifecycle-livedata-core-2.6.1\res
+com.aicybershield.app-constraintlayout-2.1.4-4 C:\Users\admin\.gradle\caches\transforms-3\2fe6505fda41aea197b1e74931e732a9\transformed\constraintlayout-2.1.4\res
+com.aicybershield.app-jetified-appcompat-resources-1.6.1-5 C:\Users\admin\.gradle\caches\transforms-3\311e361d93e61e6cc1db4235e742d497\transformed\jetified-appcompat-resources-1.6.1\res
+com.aicybershield.app-recyclerview-1.3.2-6 C:\Users\admin\.gradle\caches\transforms-3\33f9659f6fe7a9da696fe1433167904b\transformed\recyclerview-1.3.2\res
+com.aicybershield.app-jetified-profileinstaller-1.3.0-7 C:\Users\admin\.gradle\caches\transforms-3\372f031fcb988288492ff9dd49164245\transformed\jetified-profileinstaller-1.3.0\res
+com.aicybershield.app-jetified-activity-1.8.2-8 C:\Users\admin\.gradle\caches\transforms-3\402908754921aaeda1335547f8e44df8\transformed\jetified-activity-1.8.2\res
+com.aicybershield.app-jetified-core-ktx-1.12.0-9 C:\Users\admin\.gradle\caches\transforms-3\40d6e61ddeadc6e88885d68073a0aad5\transformed\jetified-core-ktx-1.12.0\res
+com.aicybershield.app-jetified-play-services-base-18.0.1-10 C:\Users\admin\.gradle\caches\transforms-3\44cb9a223205c30770c24f6faa2dc323\transformed\jetified-play-services-base-18.0.1\res
+com.aicybershield.app-jetified-zxing-android-embedded-4.3.0-11 C:\Users\admin\.gradle\caches\transforms-3\45d3d0cb75d346ba80dc6059eeef3cf5\transformed\jetified-zxing-android-embedded-4.3.0\res
+com.aicybershield.app-jetified-play-services-measurement-api-21.6.1-12 C:\Users\admin\.gradle\caches\transforms-3\52f35f4f5fb47f96aa3b61df65454da4\transformed\jetified-play-services-measurement-api-21.6.1\res
+com.aicybershield.app-appcompat-1.6.1-13 C:\Users\admin\.gradle\caches\transforms-3\731a674e239f34d76ecd3d5a852a9ad5\transformed\appcompat-1.6.1\res
+com.aicybershield.app-core-runtime-2.2.0-14 C:\Users\admin\.gradle\caches\transforms-3\817114cde00f5a7211dd542089ba2f87\transformed\core-runtime-2.2.0\res
+com.aicybershield.app-lifecycle-viewmodel-2.6.1-15 C:\Users\admin\.gradle\caches\transforms-3\8567eda8d43f704a8516d8e1a11f96eb\transformed\lifecycle-viewmodel-2.6.1\res
+com.aicybershield.app-jetified-ads-adservices-java-1.0.0-beta05-16 C:\Users\admin\.gradle\caches\transforms-3\888b931ec4e49ed518d546a99b2648d7\transformed\jetified-ads-adservices-java-1.0.0-beta05\res
+com.aicybershield.app-jetified-ads-adservices-1.0.0-beta05-17 C:\Users\admin\.gradle\caches\transforms-3\89cb744a4c3bc7d4f6cab7ff07e731ae\transformed\jetified-ads-adservices-1.0.0-beta05\res
+com.aicybershield.app-jetified-savedstate-1.2.1-18 C:\Users\admin\.gradle\caches\transforms-3\8ecc08d397d4a1f246f2f2df7fd713be\transformed\jetified-savedstate-1.2.1\res
+com.aicybershield.app-material-1.11.0-19 C:\Users\admin\.gradle\caches\transforms-3\9287c5ea0dbd9dca7290d1f343e8b0bf\transformed\material-1.11.0\res
+com.aicybershield.app-coordinatorlayout-1.1.0-20 C:\Users\admin\.gradle\caches\transforms-3\97edcf3ffcde97ca5beb518b97266f9e\transformed\coordinatorlayout-1.1.0\res
+com.aicybershield.app-swiperefreshlayout-1.1.0-21 C:\Users\admin\.gradle\caches\transforms-3\98b16947c945e73875bbb3f1849e1633\transformed\swiperefreshlayout-1.1.0\res
+com.aicybershield.app-jetified-annotation-experimental-1.3.0-22 C:\Users\admin\.gradle\caches\transforms-3\a6f1560c5f23695d26fc4dbd93db05a3\transformed\jetified-annotation-experimental-1.3.0\res
+com.aicybershield.app-jetified-customview-poolingcontainer-1.0.0-23 C:\Users\admin\.gradle\caches\transforms-3\b8061b4c07ab61a78d79abb2cde30e15\transformed\jetified-customview-poolingcontainer-1.0.0\res
+com.aicybershield.app-lifecycle-livedata-2.6.1-24 C:\Users\admin\.gradle\caches\transforms-3\bb4c74a1761dd2c2c0f1f00f4b400a3e\transformed\lifecycle-livedata-2.6.1\res
+com.aicybershield.app-jetified-viewpager2-1.1.0-beta02-25 C:\Users\admin\.gradle\caches\transforms-3\c57893285df37b5ee9b15102eac6a257\transformed\jetified-viewpager2-1.1.0-beta02\res
+com.aicybershield.app-jetified-emoji2-views-helper-1.2.0-26 C:\Users\admin\.gradle\caches\transforms-3\cdf49c3515ca3a1545b954beddd337ab\transformed\jetified-emoji2-views-helper-1.2.0\res
+com.aicybershield.app-jetified-play-services-basement-18.3.0-27 C:\Users\admin\.gradle\caches\transforms-3\d7908ecb2db9f02ac042f70ad74238ed\transformed\jetified-play-services-basement-18.3.0\res
+com.aicybershield.app-jetified-firebase-common-20.4.3-28 C:\Users\admin\.gradle\caches\transforms-3\d8224261b6233432c8e412972b0a878b\transformed\jetified-firebase-common-20.4.3\res
+com.aicybershield.app-core-1.12.0-29 C:\Users\admin\.gradle\caches\transforms-3\d8d2704662b45736df6ff43f891c6e09\transformed\core-1.12.0\res
+com.aicybershield.app-transition-1.2.0-30 C:\Users\admin\.gradle\caches\transforms-3\dab13b6448c22f2a609b90fd98c9cd37\transformed\transition-1.2.0\res
+com.aicybershield.app-jetified-lifecycle-process-2.6.1-31 C:\Users\admin\.gradle\caches\transforms-3\dc055655f2a8c664699abe01cf0da93a\transformed\jetified-lifecycle-process-2.6.1\res
+com.aicybershield.app-fragment-1.6.2-32 C:\Users\admin\.gradle\caches\transforms-3\e1469b05f6408dc6c06bd3917329bcdf\transformed\fragment-1.6.2\res
+com.aicybershield.app-jetified-startup-runtime-1.1.1-33 C:\Users\admin\.gradle\caches\transforms-3\e14ef90bfe3aa085fbfa0cbb808ad000\transformed\jetified-startup-runtime-1.1.1\res
+com.aicybershield.app-jetified-emoji2-1.2.0-34 C:\Users\admin\.gradle\caches\transforms-3\e429cf4c4c45964e7d9c837e64f12ad1\transformed\jetified-emoji2-1.2.0\res
+com.aicybershield.app-cardview-1.0.0-35 C:\Users\admin\.gradle\caches\transforms-3\ebc80e6cce66fb2c4e2ab7b1b51cdfec\transformed\cardview-1.0.0\res
+com.aicybershield.app-lifecycle-runtime-2.6.1-36 C:\Users\admin\.gradle\caches\transforms-3\f57e9d294ee61bedf2a873ffb98228ec\transformed\lifecycle-runtime-2.6.1\res
+com.aicybershield.app-pngs-37 C:\final project\android_app\app\build\generated\res\pngs\debug
+com.aicybershield.app-res-38 C:\final project\android_app\app\build\generated\res\processDebugGoogleServices
+com.aicybershield.app-resValues-39 C:\final project\android_app\app\build\generated\res\resValues\debug
+com.aicybershield.app-packageDebugResources-40 C:\final project\android_app\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.aicybershield.app-packageDebugResources-41 C:\final project\android_app\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.aicybershield.app-merged_res-42 C:\final project\android_app\app\build\intermediates\merged_res\debug
+com.aicybershield.app-debug-43 C:\final project\android_app\app\src\debug\res
+com.aicybershield.app-main-44 C:\final project\android_app\app\src\main\res

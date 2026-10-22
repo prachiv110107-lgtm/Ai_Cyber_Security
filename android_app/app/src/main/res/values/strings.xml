@@ -1,0 +1,134 @@
+<resources>
+    <string name="app_name">AI Cyber Shield</string>
+    <string name="app_tagline">Intelligent Phishing &amp; Digital Scam Protection</string>
+    <string name="stay_safe_header">Stay Safe. Stay Secure.</string>
+    <string name="home_subtitle">AI-powered threat detection for URLs, QR codes, SMS, and emails.</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_challenge">Challenge</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Feature Cards -->
+    <string name="title_scan_link">Scan Link</string>
+    <string name="desc_scan_link">Check any link for safety &amp; phishing</string>
+
+    <string name="title_scan_qr">Scan QR Code</string>
+    <string name="desc_scan_qr">Scan QR code and verify destination</string>
+
+    <string name="title_scan_sms">Scan SMS</string>
+    <string name="desc_scan_sms">Analyze SMS for fraud &amp; smishing</string>
+
+    <string name="title_scan_email">Scan Email</string>
+    <string name="desc_scan_email">Analyze email for phishing &amp; spoofing</string>
+
+    <!-- Cyber Challenge Banner -->
+    <string name="challenge_banner_title">CYBER AWARENESS CHALLENGE</string>
+    <string name="challenge_banner_desc">Learn, Test &amp; Improve your Cyber Knowledge</string>
+    <string name="challenge_banner_btn">Start Challenge</string>
+
+    <!-- Recent Scans -->
+    <string name="recent_scans_title">Recent Scans</string>
+    <string name="view_all">View All</string>
+    <string name="no_recent_scans">No scans performed yet. Tap any tool above to start!</string>
+
+    <!-- Link Scanner -->
+    <string name="scan_link_title">Scan Link</string>
+    <string name="scan_link_hint">Paste URL here (e.g. https://example.com)</string>
+    <string name="btn_analyze_url">Analyze URL</string>
+    <string name="btn_paste_clipboard">Paste from Clipboard</string>
+    <string name="btn_try_samples">Try Demo Samples</string>
+
+    <!-- QR Scanner -->
+    <string name="scan_qr_title">Scan QR Code</string>
+    <string name="qr_instruction">Point your camera at a QR code to scan and verify safety.</string>
+    <string name="btn_toggle_torch">Flashlight</string>
+    <string name="btn_gallery_pick">Pick Image</string>
+
+    <!-- SMS Scanner -->
+    <string name="scan_sms_title">Analyze SMS</string>
+    <string name="sms_hint">Paste suspicious SMS message text here...</string>
+    <string name="btn_analyze_sms">Analyze SMS</string>
+
+    <!-- Email Scanner -->
+    <string name="scan_email_title">Analyze Email</string>
+    <string name="email_sender_hint">Sender Email (e.g. support@service.com)</string>
+    <string name="email_subject_hint">Email Subject</string>
+    <string name="email_body_hint">Paste full email body content here...</string>
+    <string name="btn_analyze_email">Analyze Email</string>
+
+    <!-- Result Screen -->
+    <string name="result_title">Security Analysis Result</string>
+    <string name="status_safe">Safe</string>
+    <string name="status_safe_desc">This content appears safe to open.</string>
+    <string name="status_suspicious">Suspicious</string>
+    <string name="status_suspicious_desc">Caution advised. Unverified patterns detected.</string>
+    <string name="status_dangerous">Dangerous</string>
+    <string name="status_dangerous_desc">This content may be unsafe and dangerous.</string>
+
+    <string name="lbl_scanned_content">Scanned Target</string>
+    <string name="lbl_risk_level">Risk Level &amp; Confidence</string>
+    <string name="lbl_analysis_reason">Detection Reason</string>
+    <string name="lbl_detected_indicators">Detected Indicators</string>
+    <string name="lbl_recommendations">Recommended Actions</string>
+
+    <string name="btn_open_safe_link">Open Link (Safe)</string>
+    <string name="btn_proceed_caution">Proceed with Caution</string>
+    <string name="btn_block_warn">Block &amp; Warn</string>
+    <string name="btn_go_back">Go Back</string>
+
+    <!-- Cyber Awareness Challenge -->
+    <string name="challenge_title">Cyber Awareness Challenge</string>
+    <string name="challenge_subtitle">Learn. Practice. Stay Safe.</string>
+    <string name="level_beginner">Beginner</string>
+    <string name="level_beginner_desc">Basic cyber hygiene &amp; safe browsing</string>
+    <string name="level_intermediate">Intermediate</string>
+    <string name="level_intermediate_desc">Smishing, QRishing &amp; typosquatting</string>
+    <string name="level_advanced">Advanced</string>
+    <string name="level_advanced_desc">AiTM phishing, spoofing &amp; protocol flaws</string>
+    <string name="btn_next_question">Next Question</string>
+    <string name="btn_finish_quiz">Finish Challenge</string>
+    <string name="ans_correct">Correct Answer!</string>
+    <string name="ans_wrong">Incorrect Answer</string>
+    <string name="lbl_explanation">Why this matters:</string>
+    <string name="lbl_cyber_tip">Cybersecurity Tip:</string>
+
+    <!-- Score Screen -->
+    <string name="score_completed_title">Challenge Completed!</string>
+    <string name="score_completed_sub">Great job testing your cybersecurity awareness.</string>
+    <string name="btn_review_answers">Review Questions</string>
+    <string name="btn_back_home">Back to Home</string>
+
+    <!-- Profile -->
+    <string name="profile_title">User Profile</string>
+    <string name="awareness_score_lbl">Cyber Awareness Score</string>
+    <string name="opt_edit_profile">Edit Profile</string>
+    <string name="opt_change_password">Change Password</string>
+    <string name="opt_notifications">Security Notifications</string>
+    <string name="opt_backend_config">Backend Server URL</string>
+    <string name="opt_help_support">Help &amp; FAQ</string>
+    <string name="opt_about">About AI Cyber Shield</string>
+    <string name="btn_logout">Log Out</string>
+
+    <!-- History -->
+    <string name="history_title">Scan History</string>
+    <string name="chip_all">All</string>
+    <string name="chip_links">Links</string>
+    <string name="chip_qr">QR Codes</string>
+    <string name="chip_sms">SMS</string>
+    <string name="chip_email">Email</string>
+    <string name="btn_clear_history">Clear History</string>
+
+    <!-- Auth -->
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Sign in to your AI Cyber Shield account</string>
+    <string name="hint_email">Email Address</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="btn_login">Sign In</string>
+    <string name="btn_register">Create Account</string>
+    <string name="btn_guest_mode">Continue as Demo / Guest</string>
+    <string name="dont_have_account">Don\'t have an account? Sign Up</string>
+    <string name="already_have_account">Already have an account? Sign In</string>
+</resources>

@@ -1,0 +1,441 @@
+================================================================================
+                    AI CYBER SHIELD - PROJECT DOCUMENTATION
+          (Complete Technical Report, Architecture, Implementation & Tech Stack)
+================================================================================
+
+1. PROJECT OVERVIEW & ABSTRACT
+--------------------------------------------------------------------------------
+Project Title: AI Cyber Shield – Intelligent Multi-Modal Phishing & Digital Scam Protection System
+Domain: Cyber Security, Machine Learning, Mobile Application Development, Cloud Computing
+Target Platform: Android (Mobile Client) & Python Flask (AI/ML Backend Server)
+Database & Auth: Google Firebase (Authentication & Cloud Firestore) + Local Storage Fallback
+
+ABSTRACT:
+Digital fraud, phishing attacks, malicious QR codes (QRishing), fraudulent SMS (Smishing),
+and spoofed email campaigns cause billions of dollars in losses every year. Conventional
+security mechanisms rely primarily on static blacklists, which fail against newly created
+zero-day malicious domains and dynamic social engineering tactics.
+
+AI Cyber Shield solves this problem by combining:
+1. Client-side Real-time Mobile Security (Android Java App).
+2. Server-side Artificial Intelligence & Machine Learning (Python, Scikit-learn, NLP, Random Forest).
+3. Hybrid Rule-Based Heuristic Threat Engine (TLD checks, entropy calculation, brand spoofing detection).
+4. Cloud Data Sync & Authentication (Google Firebase Auth & Firestore).
+5. Gamified Cybersecurity Awareness Training (Interactive Challenge Quiz with scoring).
+
+Every scan generates an actionable verdict (SAFE, SUSPICIOUS, or DANGEROUS) with confidence score,
+color-coded visual warnings, detailed threat indicators, and security tips.
+
+
+================================================================================
+2. TECHNOLOGIES, TOOLS & LIBRARIES USED
+--------------------------------------------------------------------------------
+
+A. ANDROID CLIENT (FRONTEND MOBILE APP):
+   - Language: Java (JDK 17)
+   - Minimum SDK: API 26 (Android 8.0 Oreo)
+   - Target SDK: API 34 (Android 14)
+   - UI Architecture: Material Design 3 (Material Components for Android)
+   - Network Communication: Retrofit 2.9.0 + OkHttp3 + Gson Converter (for REST API communication)
+   - QR Code Scanning: ZXing ("Zebra Crossing") Android Embedded Library (com.journeyapps:zxing-android-embedded)
+   - Cloud Services:
+     * Firebase Authentication (`com.google.firebase:firebase-auth:22.3.1`)
+     * Google Cloud Firestore (`com.google.firebase:firebase-firestore:24.10.3`)
+     * Google Play Services Base (`play-services-base:18.3.0`)
+   - Local Persistence: Android SharedPreferences with Gson serialization (Offline-First Cache)
+   - WebView Sandbox: Android WebKit WebView with strict JavaScript safety rules and cleartext security config
+
+B. BACKEND SERVER (API & MACHINE LEARNING INFERENCE):
+   - Language: Python 3.10+
+   - Framework: Flask (Lightweight RESTful API server)
+   - Middleware: Flask-CORS (Cross-Origin Resource Sharing for mobile/web requests)
+   - Model Serialization: Joblib (for fast loading of pre-trained pipelines)
+   - Environment / Server: Gunicorn / WSGI compatible, defaults to 0.0.0.0:5000
+
+C. MACHINE LEARNING & DATA SCIENCE:
+   - Library: Scikit-Learn (sklearn)
+   - Data Manipulation: Pandas, NumPy
+   - Feature Engineering & NLP:
+     * TfidfVectorizer (Character n-grams `(3,5)` for URLs, Word n-grams `(1,2)` for SMS/Email)
+     * Shannon Entropy Calculation (detecting algorithmic/randomly generated domain names)
+     * Regular Expressions (Regex) for IP address detection, brand keywords, urgency triggers
+   - Classification Algorithms:
+     * Random Forest Classifier (Ensemble decision trees for high accuracy and anti-overfitting)
+   - Evaluation Metrics: Precision, Recall, F1-Score, Confusion Matrix, Classification Report
+
+D. DEVELOPMENT TOOLS & ENVIRONMENTS:
+   - IDE: Android Studio Iguana / Jellyfish & Visual Studio Code / Antigravity IDE
+   - Build Tool: Gradle 8.4 (Android Gradle Plugin 8.3.0)
+   - Package Management: Pip (Python), Maven / Google Maven (Android Gradle)
+   - Cloud Console: Google Firebase Console (Project: `cyber-security-21b9c`)
+
+
+================================================================================
+3. SYSTEM ARCHITECTURE & WORKFLOW DIAGRAM
+--------------------------------------------------------------------------------
+
++-----------------------------------------------------------------------------+
+|                          AI CYBER SHIELD SYSTEM                             |
++-----------------------------------------------------------------------------+
+                                      |
+         +----------------------------+----------------------------+
+         |                                                         |
+         v                                                         v
++------------------------------------+             +----------------------------------+
+|      ANDROID CLIENT (Java)         |             |       BACKEND API (Python Flask) |
+|                                    |             |                                  |
+| - Authentication Screen (Login)    |  REST/JSON  | - Flask Endpoints (Port 5000)    |
+| - Registration Screen (Sign Up)    |<----------->| - Random Forest Classifier ML    |
+| - Home Screen (Scanners & Status)  |  (Retrofit) | - Feature Extractor (NLP/Lexical)|
+| - Scan Screens (URL, QR, SMS, Mail)|             | - Hybrid Rule-Based Engine       |
+| - Threat Result Screen             |             +----------------------------------+
+| - History Screen (Filter Chips)    |                              ^
+| - Awareness Challenge (Quiz)       |                              |
+| - Profile & Settings               |                              v
++------------------------------------+             +----------------------------------+
+                 |                                 |       GOOGLE FIREBASE CLOUD      |
+                 +-------------------------------->|                                  |
+                   (Firebase SDK Direct Sync)      | - Firebase Auth (Email/Password) |
+                                                   | - Firestore NoSQL Database       |
+                                                   |   * User Profiles                |
+                                                   |   * Real-time Scan History       |
+                                                   +----------------------------------+
+
+
+================================================================================
+4. DETAILED MODULES & HOW THEY WERE IMPLEMENTED ("KAISE KIYA HAI")
+--------------------------------------------------------------------------------
+
+MODULE 1: USER AUTHENTICATION & MANAGEMENT
+--------------------------------------------------------------------------------
+- Purpose: Secure user registration and login, ensuring user scan history and cyber
+  awareness score are tied to their individual cloud account.
+- How it was implemented:
+  1. Google Firebase Authentication was integrated via `google-services.json` and
+     `com.google.gms.google-services` plugin.
+  2. `FirebaseAuthHelper.java` was created to encapsulate authentication methods:
+     - `register(context, name, email, password, callback)`: Uses `mAuth.createUserWithEmailAndPassword()`.
+     - Upon registration success, user details (Name, Email, Account Created Date,
+       Initial Awareness Score: 0%, Challenges Completed: 0) are saved into Cloud Firestore
+       under collection `users/{userId}`.
+     - Automatically signs the user out after registration and navigates back to
+       `LoginActivity` with a Toast confirmation ("Account created successfully! Please sign in.").
+     - `login(context, email, password, callback)`: Uses `mAuth.signInWithEmailAndPassword()`.
+       Validates credentials against Firebase Cloud. On success, redirects to `MainActivity`.
+     - `signOut(context)`: Calls `mAuth.signOut()`, clears local memory, and redirects to `LoginActivity`.
+  3. `SplashActivity.java`: On app launch, it checks `mAuth.getCurrentUser()`. If the user is
+     already authenticated, it directly loads `MainActivity`. If not, it displays `LoginActivity`.
+
+
+MODULE 2: LINK / PHISHING URL SCANNER
+--------------------------------------------------------------------------------
+- Purpose: Detect fraudulent links, typosquatting domains, credential harvesters,
+  and unencrypted scam pages.
+- How it was implemented:
+  1. User enters or pastes a URL, or shares it into the app via Android Intent Filter
+     (`ACTION_SEND`).
+  2. The Android client sends an asynchronous HTTP POST request to `/predict-url` using Retrofit.
+  3. Python Backend processes the URL via `extract_url_features(url)`:
+     - Lexical checks: URL length, domain length, number of dots, presence of "@" symbol,
+       presence of hyphen "-" in domain name.
+     - Protocol check: HTTP vs. HTTPS.
+     - IP Address check: Identifies if the host is a raw IP address (e.g., `http://192.168.1.1/login`).
+     - TLD check: Compares domain extension against high-risk phishing TLDs (`.top`, `.xyz`,
+       `.club`, `.work`, `.pw`, `.gq`, `.cf`).
+     - Brand Spoofing Heuristics: Checks if reputable brand names (`paypal`, `netflix`,
+       `google`, `apple`, `amazon`, `sbi`, `chase`) appear in subdomains or paths of unverified domains.
+     - Shannon Entropy: Computes randomness score of the domain name string to detect DGA
+       (Domain Generation Algorithms).
+  4. Machine Learning Inference:
+     - Pre-trained TF-IDF Vectorizer extracts 3-5 character n-grams.
+     - Scikit-Learn `RandomForestClassifier` outputs probability distribution.
+  5. Hybrid Decision Matrix:
+     - If verified authority domain -> SAFE (Green).
+     - If critical flags detected (IP host, brand spoof, bad TLD + keywords) -> DANGEROUS (Red).
+     - Shortened URLs (`bit.ly`, `tinyurl`) or moderate risk -> SUSPICIOUS (Yellow).
+  6. Return payload: JSON with status, confidence score, threat reason, detailed indicator tags,
+     and security advice.
+
+
+MODULE 3: QR CODE SCAM (QRISHING) SCANNER
+--------------------------------------------------------------------------------
+- Purpose: Scan physical or digital QR codes to detect malicious hidden URLs, phishing
+  redirections, or suspicious data payloads.
+- How it was implemented:
+  1. Utilizes the ZXing Android Embedded library (`CaptureManager` & `DecoratedBarcodeView`).
+  2. Android camera permission (`CAMERA`) requested dynamically at runtime.
+  3. User points camera at QR code or inputs QR text payload.
+  4. Camera feed automatically decodes barcode data into raw string.
+  5. The extracted payload is parsed: if it is a URL, it invokes the backend `/predict-qr`
+     or `/predict-url` endpoint.
+  6. Results display on the unified `ResultActivity` screen with risk verdict and indicators.
+
+
+MODULE 4: SMS SMISHING & FRAUD DETECTOR
+--------------------------------------------------------------------------------
+- Purpose: Detect financial scams, lottery fraud, OTP interception, and urgent
+  account suspension threats sent via SMS.
+- How it was implemented:
+  1. User inputs or pastes SMS text message in `ScanSmsActivity`.
+  2. Android client sends payload to backend endpoint `/predict-sms`.
+  3. Backend NLP Pipeline:
+     - Text lowercasing, punctuation stripping, tokenization.
+     - Extraction of embedded URLs or phone numbers inside the SMS.
+     - Urgency keyword scoring (`urgent`, `immediate`, `blocked`, `suspended`, `action required`).
+     - Financial trigger scoring (`lottery`, `winner`, `prize`, `refund`, `cash prize`, `bank KYC`).
+  4. Scikit-learn NLP Pipeline:
+     - `TfidfVectorizer` (Word n-grams 1-2, English stop-words removed).
+     - `RandomForestClassifier` trained on SMS Spam/Smishing corpus.
+  5. If SMS contains an embedded URL, the system recursively performs URL feature analysis
+     on that URL to provide dual protection.
+
+
+MODULE 5: EMAIL PHISHING ANALYZER
+--------------------------------------------------------------------------------
+- Purpose: Analyze sender email address, subject line, and email body to identify
+  spoofing, executive impersonation (CEO fraud), and credential harvesting.
+- How it was implemented:
+  1. Input: Sender Email, Subject Line, Body Content in `ScanEmailActivity`.
+  2. Backend endpoint `/predict-email`:
+     - Checks sender domain against free mail providers vs corporate domain names.
+     - Detects mismatched display name vs actual email address (e.g. Display Name: "Microsoft Support",
+       Email: "help@techsupport365-alert.biz").
+     - Analyzes Subject Line for panic-inducing words (`Account Termination`, `Unauthorized Login`).
+     - Analyzes Body text using NLP model for password reset lures and fake verification forms.
+
+
+MODULE 6: CYBER AWARENESS CHALLENGE & SCORING SYSTEM
+--------------------------------------------------------------------------------
+- Purpose: Educate users on modern threat vectors through interactive, gamified quizzes
+  and dynamically calculate their personal "Cyber Awareness Score" (0% to 100%).
+- How it was implemented:
+  1. Challenge Questions divided into 3 Tiers:
+     - Tier 1: Beginner (Safe browsing, HTTPS basics, Passwords).
+     - Tier 2: Intermediate (Smishing, QR code traps, Typosquatting).
+     - Tier 3: Advanced (Adversary-in-the-Middle, SSL spoofing, Spear Phishing).
+  2. Interactive UI (`ChallengeActivity.java`):
+     - Question counter, visual progress bar, option cards.
+     - Immediate feedback: green border/tint for correct answers, red for incorrect.
+     - Detailed explanation popup explaining "Why this matters in real life".
+  3. Score Calculation & Profile Update:
+     - `ScoreActivity.java` computes total accuracy % and rank badge (e.g. Cyber Novice,
+       Cyber Defender, Cyber Sentinel).
+     - Automatically updates user's score in Cloud Firestore (`users/{uid}/awarenessScore`).
+
+
+MODULE 7: SCAN HISTORY & DUAL-LAYER PERSISTENCE (OFFLINE + CLOUD)
+--------------------------------------------------------------------------------
+- Purpose: Ensure zero data loss, offline availability, and multi-device cloud synchronization.
+- How it was implemented:
+  1. Local Storage: `LocalStorageManager.java` uses Android `SharedPreferences` to cache
+     the last 50 scans locally in JSON format via Gson.
+  2. Cloud Sync: `FirestoreHelper.java` writes every completed scan directly to:
+     `users/{uid}/scans/{scanId}`
+     Document fields:
+     - `id`: Unique timestamped ID
+     - `type`: "LINK", "QR", "SMS", or "EMAIL"
+     - `target`: The URL, SMS text, or Email scanned
+     - `status`: "SAFE", "SUSPICIOUS", or "DANGEROUS"
+     - `confidence`: Confidence percentage (e.g., 96%)
+     - `reason`: Primary threat summary
+     - `timestamp`: Scan date and time
+  3. When a user opens `HistoryFragment`, the app fetches real-time scans from Firestore.
+     If the user is offline or no internet is available, it gracefully falls back to local cache.
+  4. Filters: Users can filter history by All, Safe, Suspicious, or Dangerous with interactive UI chips.
+
+
+MODULE 8: MODERN UI/UX DESIGN SYSTEM
+--------------------------------------------------------------------------------
+- Purpose: Deliver a professional, trustworthy, and visually stunning user experience.
+- How it was implemented:
+  - Curated Color Palette:
+    * Primary Brand Color: Royal Cobalt Blue (`#1D4ED8`)
+    * Background: Clean Crisp White (`#FFFFFF`) / Light Off-White (`#F8FAFC`)
+    * Border Highlights: Soft Ice Blue (`#BFDBFE`)
+    * Threat Status Colors:
+      - Safe: Vibrant Emerald Green (`#059669` / `#10B981`)
+      - Suspicious: Warning Amber (`#D97706` / `#F59E0B`)
+      - Dangerous: Crimson Red (`#DC2626` / `#EF4444`)
+  - Component Architecture:
+    * Material 3 CardViews with custom stroke borders (`1.5dp` `#BFDBFE`) and `16dp` rounded corners.
+    * Squircle icon badges with soft gradient/tint backgrounds.
+    * 4-Tab Bottom Navigation with customized `ColorStateList` selector.
+    * Clean typography with clear hierarchy (Bold headings, slate-gray body text).
+
+
+MODULE 9: IN-APP BROWSER SANDBOX & SAFETY GUARDRAILS
+--------------------------------------------------------------------------------
+- Purpose: Protect users from accidental execution of malware or credential theft.
+- How it was implemented:
+  1. If a link is identified as DANGEROUS:
+     - The app STRICTLY PREVENTS direct opening of the link.
+     - A full-screen alert is shown with danger indicators, explanation, and a "Block & Go Back" button.
+  2. If a link is confirmed SAFE:
+     - The user is allowed to view it safely inside the in-app `WebPreviewActivity` sandbox
+       or open in external browser.
+
+
+================================================================================
+5. MACHINE LEARNING: DATASET, TRAINING & PIPELINE
+================================================================================
+
+A. DATASETS (`backend/dataset/`):
+   - `urls.csv`: Thousands of labeled benign URLs (Alexa top sites, Wikipedia, Gov/Edu domains)
+     and malicious phishing links (PhishTank, OpenPhish, URLhaus).
+   - `sms.csv`: Labeled SMS corpus with legitimate notifications vs smishing attacks.
+   - `emails.csv`: Labeled email dataset with standard emails vs corporate phishing lures.
+
+B. TRAINING PIPELINE (`backend/model/train_model.py`):
+   ```python
+   # URL Model Training Pipeline
+   pipeline = Pipeline([
+       ('tfidf', TfidfVectorizer(analyzer='char_wb', ngram_range=(3, 5), max_features=5000)),
+       ('clf', RandomForestClassifier(n_estimators=100, random_state=42))
+   ])
+   pipeline.fit(X_train, y_train)
+   joblib.dump(pipeline, 'model/saved/url_phishing_model.pkl')
+   ```
+
+C. WHY CHARACTER N-GRAMS (3, 5)?
+   Phishing URLs frequently use subtle character substitutions (e.g. `paypa1.com`,
+   `g00gle-login.net`). Standard word tokenization fails on brand variations, but character
+   n-grams capture sub-word patterns and typographic tricks effectively.
+
+D. WHY RANDOM FOREST?
+   Random Forest constructs an ensemble of decision trees, avoiding the overfitting
+   typical of single decision trees and providing calibrated probability estimates
+   for confidence scoring.
+
+
+================================================================================
+6. DATABASE DESIGN & FIRESTORE SCHEMA
+================================================================================
+
+Firebase Cloud Firestore is utilized as a cloud-hosted, NoSQL document database.
+
+Collection Structure:
+
+1. `users` (Collection)
+   └── `{userId}` (Document - Auth UID)
+         ├── `name`: String (e.g., "Rahul Sharma")
+         ├── `email`: String (e.g., "rahul@gmail.com")
+         ├── `createdAt`: String (ISO timestamp)
+         ├── `awarenessScore`: Integer (0 to 100)
+         ├── `challengesCompleted`: Integer
+         └── `scans` (Sub-Collection)
+               └── `{scanId}` (Document)
+                     ├── `id`: String
+                     ├── `type`: String ("LINK" | "QR" | "SMS" | "EMAIL")
+                     ├── `target`: String (URL or text scanned)
+                     ├── `status`: String ("SAFE" | "SUSPICIOUS" | "DANGEROUS")
+                     ├── `confidence`: Integer (e.g., 94)
+                     ├── `reason`: String
+                     ├── `indicators`: Array of Strings
+                     └── `timestamp`: String
+
+
+================================================================================
+7. STEP-BY-STEP PROJECT EXECUTION & CHRONOLOGY
+================================================================================
+
+Step 1: Requirements Gathering & System Specification
+  - Defined threat models: Phishing URLs, QRishing, Smishing, and Email spoofing.
+  - Finalized client-server architecture using Android and Python Flask.
+
+Step 2: Backend Development & ML Model Training
+  - Built Flask REST API with endpoints (`/predict-url`, `/predict-sms`, `/predict-email`, `/predict-qr`).
+  - Created `feature_extractor.py` containing lexical, structural, and heuristic rules.
+  - Trained Random Forest models using Scikit-Learn and exported them with Joblib.
+
+Step 3: Android Native Client Development
+  - Developed 4-tab Material 3 architecture (Home, History, Challenge, Profile).
+  - Integrated ZXing for real-time camera QR scanning.
+  - Integrated Retrofit 2 for smooth REST API communication.
+  - Built interactive Quiz Challenge with 3 difficulty tiers.
+
+Step 4: Firebase Authentication & Cloud Database Integration
+  - Configured project in Firebase Console (`cyber-security-21b9c`).
+  - Implemented `FirebaseAuthHelper` for email/password signup and login.
+  - Implemented `FirestoreHelper` for real-time cloud scan history synchronization.
+  - Updated registration flow to register user profile in Firestore and redirect to Login.
+
+Step 5: UI/UX Modernization & Refinement
+  - Upgraded UI from dark/generic theme to a modern Royal Cobalt Blue (`#1D4ED8`) design.
+  - Added rounded MaterialCardViews with subtle ice-blue borders (`#BFDBFE`).
+  - Removed demo/guest buttons to enforce real user authentication.
+  - Reset default scores to clean 0% for new user accounts.
+
+Step 6: Testing & Validation
+  - Verified Gradle build passes cleanly without compilation errors.
+  - Tested test cases (Safe, Suspicious, Dangerous) against backend API.
+
+
+================================================================================
+8. HOW TO RUN THE PROJECT
+================================================================================
+
+A. RUNNING THE PYTHON BACKEND:
+   1. Open Terminal / Command Prompt.
+   2. Navigate to backend:
+      cd "c:\final project\backend"
+   3. Install dependencies:
+      pip install -r requirements.txt
+   4. Start server:
+      python app.py
+   5. Server starts at: http://0.0.0.0:5000
+
+B. RUNNING THE ANDROID APP:
+   1. Open Android Studio.
+   2. Select "Open" -> choose "c:\final project\android_app".
+   3. Wait for Gradle sync to finish.
+   4. Connect an Android phone via USB (with USB Debugging ON) or launch an Emulator.
+   5. Click the green "Run" (Play) button.
+   6. In the app:
+      - Register a new account.
+      - Log in with email and password.
+      - Test any URL, QR code, or SMS!
+
+
+================================================================================
+9. HARDWARE & SOFTWARE REQUIREMENTS
+================================================================================
+
+HARDWARE REQUIREMENTS:
+- Computer / Laptop:
+  * Processor: Intel Core i3/i5/i7 or AMD Ryzen equivalent (4+ cores recommended)
+  * RAM: Minimum 8 GB (16 GB recommended for running Android Studio + Emulator)
+  * Disk Space: Minimum 10 GB free SSD storage
+- Mobile Device:
+  * Android Phone or Android Emulator with Camera support (for QR scanning)
+  * RAM: Minimum 2 GB
+
+SOFTWARE REQUIREMENTS:
+- Operating System: Windows 10/11, macOS, or Linux
+- JDK: Java Development Kit 17 (OpenJDK or Oracle JDK)
+- Python: Version 3.9 or higher
+- Android Studio: Iguana, Jellyfish, or newer
+- Internet Connection: Required for Firebase Authentication and Cloud Firestore sync
+
+
+================================================================================
+10. CONCLUSION & FUTURE ENHANCEMENTS
+================================================================================
+
+CONCLUSION:
+AI Cyber Shield delivers an end-to-end, industry-grade cybersecurity solution. By
+bridging lightweight machine learning on the backend with an intuitive, modern Android
+client and Google Firebase Cloud sync, it provides real-time protection against evolving
+cyber threats while actively educating users.
+
+FUTURE ENHANCEMENTS:
+1. Deep Learning Models: Incorporating BERT or RoBERTa transformers for contextual
+   semantic analysis of multilingual phishing messages.
+2. Accessibility Service Integration: Real-time background scanning of incoming SMS
+   notifications and WhatsApp messages without requiring manual copy-pasting.
+3. Dark / Light Mode Switcher: Allowing users to toggle between dynamic themes.
+4. Community Threat Reporting: Enabling users to flag unclassified scam URLs to train
+   future iterations of the machine learning model.
+
+================================================================================
+                              END OF DOCUMENTATION
+================================================================================
