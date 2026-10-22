@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI CYBER SHIELD – Intelligent Phishing & Digital Scam Protection System
 
 **AI CYBER SHIELD** is a comprehensive, multi-modal cybersecurity defense mobile application and machine learning backend engineered to detect, classify, explain, and block digital threats including:
@@ -181,3 +182,7 @@ c:\final project\
                 ├── values/         # Colors, Strings, Dimens, Themes, Styles
                 └── xml/            # Network security cleartext config
 ```
+=======
+# Ai_Cyber_Security
+A comprehensive research project exploring AI-powered cyber security mechanisms, automated threat detection, and resilient digital defense architectures.
+>>>>>>> e8e44acd007b77a0c686fc1d12801d42b7e7674b
